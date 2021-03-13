@@ -1,20 +1,23 @@
-function wait() {
-  return new Promise(resolve =>
-    setTimeout(resolve, 10 * 1000)
-  )
+function myNew (Fn, ...args) {
+  let result = {}
+  Object.setPrototypeOf(result, Fn.prototype)
+  const returnData = Fn.apply(result, args)
+  if ((typeof returnData === 'object' || typeof returnData === 'function') && returnData !== null) {
+    return returnData
+  }
+  return result
 }
 
-async function main() {
-  const start = +new Date()
-  console.log(start);
-  const x = wait();
-  const y = wait();
-  const z = wait();
-  await x;
-  await y;
-  await z;
-  const end = +new Date()
-  console.log(end);
-  console.log(end - start);
+function Test1(options) {
+  this.name = options.name
+  this.age = options.age
 }
-main();
+Test1.prototype.getName = function () {
+  return this.name
+}
+
+const testNew = myNew(Test1, {
+  name: 'Zzhk',
+  age: 26
+})
+console.log(testNew)
