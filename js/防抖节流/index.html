@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>防抖节流</title>
+  <style>
+    .demo {
+      width: 500px;
+      height: 500px;
+      margin: auto;
+    }
+  </style>
+</head>
+<body>
+  <div class="demo">
+    <input type="text" id="input">
+    <div class="content"></div>
+  </div>
+  <script src="./index.js"></script>
+  <script>
+    const inputNode = document.getElementById('input')
+    inputNode.oninput = debounce(getValue, 500)
+    function getValue(e) {
+      const value = document.getElementById('input').value
+      document.querySelector('.content').innerHTML = '输入的值为 ' + value
+    }
+    function resize(e) {
+      console.log(e)
+    }
+    window.addEventListener('resize', throttle3(resize, 1000))
+  </script>
+</body>
+</html>

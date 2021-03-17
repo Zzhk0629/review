@@ -25,12 +25,12 @@ Function.prototype.myBind = function (context, ...args) {
   let fNOP = function () {}
   let fBound = function () {
     const args1 = Array.prototype.slice.call(arguments)
-    return self.apply(fNOP.prototype && fNOP.prototype.isPrototypeOf(this) ? this : context, args.concat(args1))
+    return self.apply(fNOP.prototype.isPrototypeOf(this) ? this : context, args.concat(args1))
   }
-  fNOP.prototype = this.prototype
-  // if (this.prototype) {
-  //   fNOP.prototype = this.prototype
-  // }
+  console.log(this, this.prototype)
+  if (this.prototype) {
+    fNOP.prototype = this.prototype
+  }
   fBound.prototype = new fNOP()
   return fBound
 }
@@ -54,11 +54,11 @@ let result = {
 a.getName.myCall(b, 'call')
 a.getName.myApply(b, ['apply'])
 a.getName.myBind(b, 'bind')()
+getName.myBind(b, 'bind')()
 
-function First (opt) {
+function first (opt) {
+  console.log(this)
   this.a = opt.a
   this.b = opt.b
 }
-const Second = First.myBind(result, result)
-
-console.log(new Second())
+const Second = first.myBind(result, result)()
